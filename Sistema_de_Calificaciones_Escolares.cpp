@@ -30,22 +30,48 @@ int main() {
                     break;
                 }
 
-                float calificacion1, calificacion2, calificacion3;
-                cout << "Calificacion 1: ";
-                cin >> calificacion1;
-                cout << "Calificacion 2: ";
-                cin >> calificacion2;
-                cout << "Calificacion 3: ";
-                cin >> calificacion3;
+                                int n;
+                cout << "Cuantas calificaciones deseas registrar? ";
+                cin >> n;
 
-                if (calificacion1 < 0 || calificacion1 > 10 ||
-                    calificacion2 < 0 || calificacion2 > 10 ||
-                    calificacion3 < 0 || calificacion3 > 10) {
-                    cout << "Error: alguna calificacion no esta entre 0 y 10" << endl;
+                if (n <= 0) {
+                    cout << "Debes registrar al menos una calificacion" << endl;
                     break;
                 }
 
-                float promedio = (calificacion1 + calificacion2 + calificacion3) / 3;
+                float suma = 0;
+                int aprobadas = 0, reprobadas = 0;
+                float notaMax, notaMin;
+                bool calificacionInvalida = false;
+
+                for (int i = 1; i <= n; i++) {
+                    float cal;
+                    cout << "Calificacion " << i << ": ";
+                    cin >> cal;
+
+                    if (cal < 0 || cal > 10) {
+                        cout << "Error: la calificacion debe estar entre 0 y 10" << endl;
+                        calificacionInvalida = true;
+                        break;
+                    }
+
+                    suma += cal;
+
+                    if (cal >= 6) aprobadas++;
+                    else reprobadas++;
+
+                    if (i == 1) {
+                        notaMax = cal;
+                        notaMin = cal;
+                    } else {
+                        if (cal > notaMax) notaMax = cal;
+                        if (cal < notaMin) notaMin = cal;
+                    }
+                }
+
+                if (calificacionInvalida) break;
+
+                float promedio = suma / n;
 
                 string estado;
                 if (promedio >= 9) estado = "EXCELENTE";
@@ -56,7 +82,12 @@ int main() {
                 cout << "\n--- Resumen ---" << endl;
                 cout << "Nombre: " << nombre << endl;
                 cout << "Edad: " << edad << endl;
+                cout << "Calificaciones registradas: " << n << endl;
                 cout << "Promedio: " << promedio << endl;
+                cout << "Calificacion mas alta: " << notaMax << endl;
+                cout << "Calificacion mas baja: " << notaMin << endl;
+                cout << "Aprobadas: " << aprobadas << endl;
+                cout << "Reprobadas: " << reprobadas << endl;
                 cout << "Estado: " << estado << endl;
 
                 break;
