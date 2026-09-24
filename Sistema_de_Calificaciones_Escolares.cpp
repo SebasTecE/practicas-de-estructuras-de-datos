@@ -10,12 +10,25 @@ int main() {
         cout << "1. Registrar estudiante" << endl;
         cout << "2. Ver informacion del programa" << endl;
         cout << "3. Salir" << endl;
-        cout << "Opcion: ";
-        cin >> opcion;
-        cin.ignore();
+        cout << "4. Registrar otro estudiante" << endl;
+        do {
+    cout << "Opcion: ";
+    cin >> opcion;
+    if (cin.fail()) {
+        cout << "Opcion invalida, intenta de nuevo." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        opcion = -1; // fuerza a repetir el ciclo
+        continue;
+    }
+    cin.ignore();
+    if (opcion < 1 || opcion > 4) {
+        cout << "Opcion invalida, intenta de nuevo." << endl;
+    }
+} while (opcion < 1 || opcion > 4);
 
         switch (opcion) {
-            case 1: {
+            case 1: case 4:{
                 string nombre;
                 int edad;
 
@@ -25,35 +38,39 @@ int main() {
                 cout << "Edad: ";
                 cin >> edad;
 
-                if (edad < 0 || edad > 120) {
-                    cout << "Edad invalida" << endl;
-                    break;
+                 while (cin.fail() || edad < 0 || edad > 120) {
+                 cout << "Edad invalida, ingresa de nuevo: ";
+                 cin.clear();
+                 cin.ignore(10000, '\n');
+                 cin >> edad;
                 }
 
                                 int n;
                 cout << "Cuantas calificaciones deseas registrar? ";
                 cin >> n;
 
-                if (n <= 0) {
-                    cout << "Debes registrar al menos una calificacion" << endl;
-                    break;
+                 while (cin.fail() || n <= 0) {
+                 cout << "Debes registrar al menos una calificacion. Intenta de nuevo: ";
+                 cin.clear();
+                 cin.ignore(10000, '\n');
+                 cin >> n;
                 }
 
                 float suma = 0;
                 int aprobadas = 0, reprobadas = 0;
                 float notaMax, notaMin;
-                bool calificacionInvalida = false;
 
                 for (int i = 1; i <= n; i++) {
                     float cal;
                     cout << "Calificacion " << i << ": ";
                     cin >> cal;
 
-                    if (cal < 0 || cal > 10) {
-                        cout << "Error: la calificacion debe estar entre 0 y 10" << endl;
-                        calificacionInvalida = true;
-                        break;
-                    }
+                 while (cin.fail() || cal < 0 || cal > 10) {
+                 cout << "Calificacion invalida, ingresa de nuevo (0-10): ";
+                 cin.clear();
+                 cin.ignore(10000, '\n');
+                 cin >> cal;
+                }
 
                     suma += cal;
 
@@ -69,7 +86,6 @@ int main() {
                     }
                 }
 
-                if (calificacionInvalida) break;
 
                 float promedio = suma / n;
 
@@ -100,9 +116,7 @@ int main() {
                 break;
             case 3:
                 cout << "\nSaliendo del programa..." << endl;
-                break;
-            default:
-                cout << "\nOpcion invalida, intenta de nuevo." << endl;
+                break;       
         }
 
     } while (opcion != 3);
